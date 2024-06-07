@@ -1,8 +1,8 @@
 ---
-title: "- Week One"
+title: "- Week Two"
 author: ["Housing and AI", "Community Capitals", "Iowa Zoning Guide"]
 date: "5/31/2024"
-categories: ["Week One"]
+categories: ["Week Two"]
 format: markdown
 ---
 # Guidelines
