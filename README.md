@@ -8,9 +8,9 @@ authors:
 - Community Capitals
 - Iowa Zoning Guide
 categories:
-- Week One
+- Week Two
 date: 2024-05-31
-title: "- Week One"
+title: "- Week Two"
 toc-title: Table of contents
 ---
 
@@ -100,3 +100,47 @@ the `DESCRIPTION` file.
         but loaded from another session.
 -   Don't include the `tidyverse` in imports, use the specific libraries
     instead.
+
+## Using Python Code Chunks
+
+If you are using python in your code chunks you will need to run the
+following at the top of your code, after the library imports. Set the
+following chunks to `eval=TRUE`.
+
+::: cell
+``` {.r .cell-code}
+# Library for running python code in RStudio.
+library(reticulate)
+```
+:::
+
+::: cell
+``` {.r .cell-code}
+# Check for virtual environment, if it doesn't exist, create the venv, if it exists
+# then use the venv called "r-python"
+
+if (virtualenv_exists("r-python")) {
+  use_virtualenv("r-python")
+} else {
+  virtualenv_create("r-python")
+  use_virtualenv("r-python")
+}
+```
+:::
+
+::: cell
+``` {.r .cell-code}
+# Installing dependencies for the python virtualenv
+
+virtualenv_install(envname = "r-python", packages = c("numpy", "pandas", "scikit-learn"), all = TRUE)
+```
+:::
+
+# Markdown Resources
+
+-   [Quarto Tutorials](https://quarto.org/docs/guide/)
+-   [Quarto Websites/Blogs](https://quarto.org/docs/websites/)
+-   [Quarto Markdown Reference
+    Guide](https://quarto.org/docs/authoring/markdown-basics.html)
+-   [RMarkdown Reference
+    Guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)
