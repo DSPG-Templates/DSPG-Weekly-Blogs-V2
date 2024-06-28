@@ -5,10 +5,10 @@ run-name: Running Quarto Render on Markdown Files
 on: [push]
 
 env:
-  MARKDOWN_DOCUMENT: Python_Testing.qmd
-  QMD_TITLE: \"Python Testing\"
-  QMD_AUTHOR: \[\"Harun Celik\"\]
-  QMD_TAGS: \[\"Python\", \"Test\"\]
+  MARKDOWN_DOCUMENT: Weekly_Team_Blog.qmd
+  QMD_TITLE: \"Housing and AI Week No\" \"Community Capitals Week No\", \"Iowa Zoning Guide Week No\"
+  QMD_AUTHOR: \[\"Harun Celik\"\] \[\"Housing and AI\"\] \[\"Community Capitals\"\], \[\"Iowa Zoning Guide\"\]
+  QMD_TAGS: \[\"Week No\"\]
 
 jobs:
   install-dependencies:
@@ -59,6 +59,42 @@ jobs:
           OUTPUT_FILE: "${{ github.actor }}_render_output.html"
         run: |
           R -e "quarto::quarto_render(input = 'Weekly_Team_Blog.qmd', output_format = 'html', output_file = Sys.getenv('OUTPUT_FILE'))"
+
+      - name: Check if Title is Correct
+        run: |
+          echo "Checking YAML for Correct Title"
+          sed -n '/^\s*---\s*$/,/^\s*---\s*$/p' $MARKDOWN_DOCUMENT
+          if sed -n '/^\s*---\s*$/,/^\s*---\s*$/p' $MARKDOWN_DOCUMENT | grep -q "title: ${QMD_TITLE}"; then
+            echo "Title exists in YAML block."
+            exit 0
+          else
+            echo "Title does not exist in YAML block."
+            exit 1
+          fi
+
+      - name: Check if Authors are Correct
+        run: |
+          echo "Checking YAML for Correct Author"
+          sed -n '/^\s*---\s*$/,/^\s*---\s*$/p' $MARKDOWN_DOCUMENT
+          if sed -n '/^\s*---\s*$/,/^\s*---\s*$/p' $MARKDOWN_DOCUMENT | grep -q "author: ${QMD_AUTHOR}"; then
+            echo "Correct Author exists in YAML block."
+            exit 0
+          else
+            echo "Correct Author does not exist in YAML block."
+            exit 1
+          fi
+
+      - name: Check if Tags are Correct
+        run: |
+          echo "Checking YAML for Correct Tags"
+          sed -n '/^\s*---\s*$/,/^\s*---\s*$/p' $MARKDOWN_DOCUMENT
+          if sed -n '/^\s*---\s*$/,/^\s*---\s*$/p' $MARKDOWN_DOCUMENT | grep -q "categories: ${QMD_TAGS}"; then
+            echo "Correct Tags exist in YAML block."
+            exit 0
+          else
+            echo "Correct Tags do not exist in YAML block."
+            exit 1
+          fi
 
       - name: Copy Markdown Files and Folders and Push
         if: success()
