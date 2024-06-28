@@ -68,6 +68,33 @@ Imports:
   in order to see if any library is not called but loaded from another session.
 - Don't include the `tidyverse` in imports, use the specific libraries instead.
 
+## Using Python Code Chunks
+
+If you are using python in your code chunks you will need to run the following at the top of your code, after the library imports. Set the following chunks to `eval=TRUE`.
+
+```{r}
+# Library for running python code in RStudio.
+library(reticulate)
+```
+
+```{r, eval=FALSE}
+# Check for virtual environment, if it doesn't exist, create the venv, if it exists
+# then use the venv called "r-python"
+
+if (virtualenv_exists("r-python")) {
+  use_virtualenv("r-python")
+} else {
+  virtualenv_create("r-python")
+  use_virtualenv("r-python")
+}
+```
+
+```{r, eval=FALSE}
+# Installing dependencies for the python virtualenv
+
+virtualenv_install(envname = "r-python", packages = c("numpy", "pandas", "scikit-learn"), all = TRUE)
+```
+
 # Markdown Resources
 
 - [Quarto Tutorials](https://quarto.org/docs/guide/)
