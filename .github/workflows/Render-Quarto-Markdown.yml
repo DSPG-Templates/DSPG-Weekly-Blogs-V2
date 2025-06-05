@@ -64,7 +64,7 @@ jobs:
           mkdir ${{ github.event.repository.name }}
           cd ${{ github.event.repository.name }}
           cp ../../../../$MARKDOWN_DOCUMENT .
-          cp -r ../../../../data/ ./Data
+          cp -r ../../../../Data/ ./Data
           cp -r ../../../../imgs ./imgs
           git add .
           git status 
