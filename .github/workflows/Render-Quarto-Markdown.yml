@@ -1,15 +1,12 @@
-name: render-quarto-markdown
+name: render-weekly-blog
 
-run-name: Running Quarto Render on Markdown Files
+run-name: Running Quarto Render on Markdown File
 
 on: [push]
 
 env:
   MARKDOWN_DOCUMENT: Weekly_Team_Blog.qmd
-  QMD_TITLE: \"Housing and AI Week No\" \"Community Capitals Week No\", \"Iowa Zoning Guide Week No\"
-  QMD_AUTHOR: \[\"Harun Celik\"\] \[\"Housing and AI\"\] \[\"Community Capitals\"\], \[\"Iowa Zoning Guide\"\]
-  QMD_TAGS: \[\"Week No\"\]
-
+  
 jobs:
   install-dependencies:
     runs-on: ubuntu-latest
@@ -20,81 +17,41 @@ jobs:
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           
       - name: Checkout Assignment Repository
-        uses: actions/checkout@v4
-
-      - name: Checkout Private Repo
-        uses: actions/checkout@v2
-        with:
-          repository: DSPG-2024/Private-Blog
-          token: ${{ secrets.BLOG_PAT_TOKEN }}
-          path: DSPG-2024/Private-Blog     
-
-      - name: Set up R
-        uses: r-lib/actions/setup-r@v2
-        with:
-          install-r: "true"
-          
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'          
+        uses: actions/checkout@v4             
 
       - name: View Repository Directories
         run: |
           ls -la
-        
-      - name: Install R Dependencies
+
+      - name: Set Up R
+        uses: r-lib/actions/setup-r@v2
+
+      - name: Set Up R Packages
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache: "always"
+          install-quarto: false
+          extra-packages: |
+            any::knitr
+            any::rmarkdown
         
-      - name: Install Quarto CLI
-        run: |
-          wget https://quarto.org/download/latest/quarto-linux-amd64.deb
-          sudo dpkg -i quarto-linux-amd64.deb
-          quarto check install
+      - name: Set-Up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
           
       - name: Render QMD File
-        env:
-          OUTPUT_FILE: "${{ github.actor }}_render_output.html"
         run: |
-          R -e "quarto::quarto_render(input = 'Weekly_Team_Blog.qmd', output_format = 'html', output_file = Sys.getenv('OUTPUT_FILE'))"
+          quarto render $MARKDOWN_DOCUMENT --to html
 
-      - name: Check if Title is Correct
-        run: |
-          echo "Checking YAML for Correct Title"
-          sed -n '/^\s*---\s*$/,/^\s*---\s*$/p' $MARKDOWN_DOCUMENT
-          if sed -n '/^\s*---\s*$/,/^\s*---\s*$/p' $MARKDOWN_DOCUMENT | grep -q "title: ${QMD_TITLE}"; then
-            echo "Title exists in YAML block."
-            exit 0
-          else
-            echo "Title does not exist in YAML block."
-            exit 1
-          fi
+      - name: Checkout Private Repo
+        uses: actions/checkout@v2
+        with:
+          repository: DSPG-2025/Private-Blogs
+          token: ${{ secrets.BLOG_PAT_TOKEN }}
+          path: DSPG-2025/Private-Blogs
 
-      - name: Check if Authors are Correct
+      - name: View Repository Directories
         run: |
-          echo "Checking YAML for Correct Author"
-          sed -n '/^\s*---\s*$/,/^\s*---\s*$/p' $MARKDOWN_DOCUMENT
-          if sed -n '/^\s*---\s*$/,/^\s*---\s*$/p' $MARKDOWN_DOCUMENT | grep -q "author: ${QMD_AUTHOR}"; then
-            echo "Correct Author exists in YAML block."
-            exit 0
-          else
-            echo "Correct Author does not exist in YAML block."
-            exit 1
-          fi
-
-      - name: Check if Tags are Correct
-        run: |
-          echo "Checking YAML for Correct Tags"
-          sed -n '/^\s*---\s*$/,/^\s*---\s*$/p' $MARKDOWN_DOCUMENT
-          if sed -n '/^\s*---\s*$/,/^\s*---\s*$/p' $MARKDOWN_DOCUMENT | grep -q "categories: ${QMD_TAGS}"; then
-            echo "Correct Tags exist in YAML block."
-            exit 0
-          else
-            echo "Correct Tags do not exist in YAML block."
-            exit 1
-          fi
+          ls -la
 
       - name: Copy Markdown Files and Folders and Push
         if: success()
@@ -102,14 +59,14 @@ jobs:
           GH_PAT: ${{ secrets.BLOG_PAT_TOKEN }}
         run: |
           echo "ATTEMPTING FILE PUSH"
-          cd DSPG-2024/Private-Blog/Assignments/
+          cd DSPG-2025/Private-Blogs/Assignments/
           rm -rf ${{ github.event.repository.name }} || true 
           mkdir ${{ github.event.repository.name }}
           cd ${{ github.event.repository.name }}
-          cp ../../../../Weekly_Team_Blog.qmd .
-          cp -r ../../../../Data/ ./Data
+          cp ../../../../$MARKDOWN_DOCUMENT .
+          cp -r ../../../../data/ ./Data
           cp -r ../../../../imgs ./imgs
           git add .
           git status 
           git commit -m "Add markdown file output, data folder, and images of ${{ github.actor }}"
-          git push https://${{ github.actor }}:${{ secrets.GH_PAT }}@github.com/DSPG-2024/Private-Blog.git
+          git push https://${{ github.actor }}:${{ secrets.GH_PAT }}@github.com/DSPG-2025/Private-Blogs.git
