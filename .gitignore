@@ -50,3 +50,5 @@ rsconnect/
 .Rbuildignore
 
 /.quarto/
+
+.DS_Store
