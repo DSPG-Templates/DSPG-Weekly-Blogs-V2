@@ -1,16 +1,14 @@
 ---
 author:
-- Housing and AI
+- STEM Education
 - Community Capitals
-- Iowa Zoning Guide
 authors:
-- Housing and AI
+- STEM Education
 - Community Capitals
-- Iowa Zoning Guide
 categories:
-- Week Two
-date: 2024-05-31
-title: "- Week Two"
+- Week One
+date: 2025-06-05
+title: GROUP - Week One
 toc-title: Table of contents
 ---
 
@@ -22,10 +20,9 @@ the name or the GitHub Actions check will fail.
 ## Metadata
 
 -   Adjust the author above so that the appropriate one of
-    `["Housing and AI", "Community Capitals", "Iowa Zoning Guide"` is
-    selected.
--   Change the title of the blog to "Housing and AI Week One", adjusting
-    for each group. The categories are case sensitive.
+    `"STEM Education"` or `"Community Capitals"`. is selected.
+-   Change the title of the blog to "Community Capitals Week One",
+    adjusting for each group. The categories are case sensitive.
 
 ## Images
 

@@ -1,9 +1,10 @@
 ---
-title: "- Week Two"
-author: ["Housing and AI", "Community Capitals", "Iowa Zoning Guide"]
-date: "5/31/2024"
-categories: ["Week Two"]
+title: "GROUP - Week One"
+author: ["STEM Education", "Community Capitals"]
+date: last-modified
+categories: "Week One"
 format: markdown
+output-file: README.md
 ---
 # Guidelines
 
@@ -12,9 +13,9 @@ Actions check will fail.
 
 ## Metadata
 
-- Adjust the author above so that the appropriate one of `["Housing and AI", "Community Capitals", "Iowa Zoning Guide"`
+- Adjust the author above so that the appropriate one of `"STEM Education"` or ` "Community Capitals"`.
 is selected.
-- Change the title of the blog to "Housing and AI Week One", adjusting for each group. The categories are case sensitive.
+- Change the title of the blog to "Community Capitals Week One", adjusting for each group. The categories are case sensitive.
 
 ## Images
 
@@ -44,6 +45,7 @@ For example, if we are using the `ggplot2` library, we would run the following.
 ```{r, eval=FALSE}
 usethis::use_package(package = "ggplot2", type = "Imports")
 ```
+
 You should now be able to see `ggplot2` as an import at the bottom of the `DESCRIPTION` file.
 
 ```
@@ -72,7 +74,7 @@ Imports:
 
 If you are using python in your code chunks you will need to run the following at the top of your code, after the library imports. Set the following chunks to `eval=TRUE`.
 
-```{r}
+```{r, eval=FALSE}
 # Library for running python code in RStudio.
 library(reticulate)
 ```

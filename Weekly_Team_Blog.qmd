@@ -1,12 +1,12 @@
 ---
-title: "- Week Two"
-author: ["Housing and AI", "Community Capitals", "Iowa Zoning Guide"]
-date: "6/7/2024"
-categories: ["Week Two"]
+title: "GROUP - Week One"
+author: ["STEM Education", "Community Capitals"]
+date: last-modified
+categories: "Week One"
 format: html
 ---
 
-```{r setup, include=FALSE}
+```{r setup, eval=FALSE}
 library(reticulate)
 ```
 
@@ -14,7 +14,7 @@ library(reticulate)
 print("First some R Code")
 ```
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # Check for virtual environment, if it doesn't exist, create the venv, if it exists
 # then use the venv called "r-python"
 
@@ -26,13 +26,15 @@ if (virtualenv_exists("r-python")) {
 }
 ```
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # Installing dependencies for the python virtualenv
 
 virtualenv_install(envname = "r-python", packages = c("numpy", "pandas", "scikit-learn"), all = TRUE)
 ```
 
 ```{python}
+#| eval: false
+
 import pandas as pd
 print("Currently using Pandas Version:", pd.__version__)
 ```
