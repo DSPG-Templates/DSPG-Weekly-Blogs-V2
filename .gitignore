@@ -52,3 +52,7 @@ rsconnect/
 /.quarto/
 
 .DS_Store
+
+.html
+
+Weekly_Team_Blog_files/
